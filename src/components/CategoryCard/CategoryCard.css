@@ -1,18 +1,18 @@
 /* Category grid setup */
 .categories {
-    max-width: 900px;
-    margin: 72px auto 0;
-    padding: 0 24px;
+  max-width: 900px;
+  margin: 72px auto 0;
+  padding: 0 24px;
 }
 
 .categories__title {
-    color: #d9a441;
-    font-family: var(--font-body);
+  color: #d9a441; 
+  font-family: var(--font-body);
 
 }
 
 .categories__grid {
-    display: grid;
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
 }
@@ -25,6 +25,12 @@
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.03);
   text-align: center;
+  cursor: pointer;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    border-color: #d9a441;
 }
 
 .category-card__icon {
