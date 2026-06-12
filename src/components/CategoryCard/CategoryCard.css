@@ -1,0 +1,52 @@
+/* Category grid setup */
+.categories {
+    max-width: 900px;
+    margin: 72px auto 0;
+    padding: 0 24px;
+}
+
+.categories__title {
+    color: #d9a441;
+    font-family: var(--font-body);
+
+}
+
+.categories__grid {
+    display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* Category Card CSS */
+.category-card {
+  min-height: 150px;
+  padding: 20px 16px;
+  border: 1px solid rgba(217, 164, 65, 0.35);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.03);
+  text-align: center;
+}
+
+.category-card__icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.category-card__title {
+  color: #f1d28a;
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.category-card__description {
+  color: #d8c7a3;
+  font-size: 14px;
+  margin: 0;
+}
+
+
+@media (max-width: 768px) {
+    .categories__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

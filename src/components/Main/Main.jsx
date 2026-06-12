@@ -1,5 +1,7 @@
 import SearchForm from "../SearchForm/SearchForm";
+import CategoryCard from "../CategoryCard/CategoryCard";
 import "./Main.css";
+import "../CategoryCard/CategoryCard.css";
 
 function Main() {
   return (
@@ -18,6 +20,33 @@ function Main() {
         </p>
 
         <SearchForm />
+      </section>
+
+      <section className="categories">
+        <h2 className="categories__title">Explore Categories</h2>
+        <div className="categories__grid">
+          <CategoryCard
+            icon="🛡️"
+            title="Races"
+            description="Explore unique ancestries and traits"
+          />
+          <CategoryCard
+            icon="⚔️"
+            title="Classes"
+            description="Discover different character classes and their abilities"
+          />
+          <CategoryCard
+            icon="📖"
+            title="Backgrounds"
+            description="Choose from a variety of character backgrounds"
+          />
+
+          <CategoryCard
+            icon="✨"
+            title="Spells"
+            description="Find and learn about magical spells"
+          />
+        </div>
       </section>
     </main>
   );
