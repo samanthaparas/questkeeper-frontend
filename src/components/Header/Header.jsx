@@ -6,6 +6,10 @@ import "./Header.css";
 function Header() {
   return (
     <header className="header">
+      <button className="header__menu" type="button">
+        ☰
+      </button>
+
       <Link className="header__brand" to="/">
         <img className="header__icon" src={logoIcon} alt="QuestKeeper logo" />
 
@@ -15,7 +19,13 @@ function Header() {
         </div>
       </Link>
 
-      <Navigation />
+      <div className="header__actions">
+        <Navigation />
+
+        <button className="header__profile" type="button">
+          👤
+        </button>
+      </div>
     </header>
   );
 }

@@ -1,0 +1,52 @@
+.main {
+  padding-top: 80px;
+}
+
+.hero {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero h1 {
+  color: #f4ead7;
+  font-size: 58px;
+  line-height: 1;
+  margin-bottom: 16px;
+  font-family: var(--font-heading);
+  font-weight: 500;
+}
+
+.hero p {
+  color: #d8c7a3;
+  font-size: 24px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 48px 20px;
+  }
+
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .search-form {
+    width: 100%;
+  }
+
+  .search-form input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 32px;
+  }
+}
