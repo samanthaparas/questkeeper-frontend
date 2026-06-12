@@ -1,20 +1,25 @@
 .header {
+  width: 100%;
+  padding: 24px 44px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 48px;
+
+  background-color: #050505;
 }
 
 .header__brand {
   display: flex;
   align-items: center;
   gap: 12px;
+
   text-decoration: none;
 }
 
 .header__icon {
-  width: 54px;
-  height: 54px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
 }
 
@@ -27,9 +32,11 @@
   color: #d9a441;
   font-size: 32px;
   font-weight: 700;
+  line-height: 1;
 }
 
 .header__tagline {
   color: #f1d28a;
   font-size: 14px;
+  line-height: 1.2;
 }
