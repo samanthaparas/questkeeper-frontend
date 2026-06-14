@@ -48,6 +48,11 @@
   background-color: rgba(255, 255, 255, 0.03);
 }
 
+.result-card:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
 .result-card h3 {
   color: #f1d28a;
   margin: 0 0 8px;

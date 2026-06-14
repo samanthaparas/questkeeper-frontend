@@ -3,15 +3,29 @@ import SearchForm from "../SearchForm/SearchForm";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import "./Main.css";
 import "../CategoryCard/CategoryCard.css";
+import DetailPanel from "../DetailPanel/DetailPanel";
 
 const results = [
-  { name: "Elf", type: "Race" },
-  { name: "Fireball", type: "Spell" },
-  { name: "Rogue", type: "Class" },
+  {
+    name: "Elf",
+    type: "Race",
+    description: "Graceful humanoids with keen senses and magical ancestry.",
+  },
+  {
+    name: "Fireball",
+    type: "Spell",
+    description: "A bright streak flashes into an explosion of flame.",
+  },
+  {
+    name: "Rogue",
+    type: "Class",
+    description: "A skilled adventurer who relies on stealth and precision.",
+  },
 ];
 
 function Main() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedResult, setSelectedResult] = useState(null);
 
   const filteredResults = results.filter((result) =>
     result.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -34,7 +48,10 @@ function Main() {
 
         <SearchForm
           searchQuery={searchQuery}
-          onSearchChange={(e) => setSearchQuery(e.target.value)}
+          onSearchChange={(e) => {
+            setSearchQuery(e.target.value);
+            setSelectedResult(null);
+          }}
         />
 
         {/* Hides results when search is empty */}
@@ -49,7 +66,11 @@ function Main() {
                 </p>
               ) : (
                 filteredResults.map((result) => (
-                  <article className="result-card" key={result.name}>
+                  <article
+                    className="result-card"
+                    key={result.name}
+                    onClick={() => setSelectedResult(result)}
+                  >
                     <h3 className="result-card__name">{result.name}</h3>
                     <p className="result-card__type">{result.type}</p>
                   </article>
@@ -58,6 +79,7 @@ function Main() {
             </div>
           </section>
         )}
+        <DetailPanel selectedResult={selectedResult} />
       </section>
 
       <section className="categories">

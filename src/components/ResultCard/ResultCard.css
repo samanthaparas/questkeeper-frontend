@@ -1,0 +1,4 @@
+.result-card:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+}
