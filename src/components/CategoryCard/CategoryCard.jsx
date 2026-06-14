@@ -1,3 +1,5 @@
+import "./CategoryCard.css";
+
 function CategoryCard({ icon, title, description }) {
   return (
     <article className="category-card">

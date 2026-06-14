@@ -1,3 +1,5 @@
+import "./DetailPanel.css";
+
 function DetailPanel({ selectedResult }) {
   if (!selectedResult) {
     return null; // Don't render anything if no result is selected

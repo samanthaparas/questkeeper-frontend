@@ -1,9 +1,9 @@
 import { useState } from "react";
 import SearchForm from "../SearchForm/SearchForm";
 import CategoryCard from "../CategoryCard/CategoryCard";
-import "./Main.css";
-import "../CategoryCard/CategoryCard.css";
 import DetailPanel from "../DetailPanel/DetailPanel";
+import ResultCard from "../ResultCard/ResultCard";
+import "./Main.css";
 
 const results = [
   {
@@ -66,14 +66,11 @@ function Main() {
                 </p>
               ) : (
                 filteredResults.map((result) => (
-                  <article
-                    className="result-card"
+                  <ResultCard
                     key={result.name}
+                    result={result}
                     onClick={() => setSelectedResult(result)}
-                  >
-                    <h3 className="result-card__name">{result.name}</h3>
-                    <p className="result-card__type">{result.type}</p>
-                  </article>
+                  />
                 ))
               )}
             </div>
