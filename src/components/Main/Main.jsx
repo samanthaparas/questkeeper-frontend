@@ -1,27 +1,11 @@
 import { useState } from "react";
+import { results } from "../../utils/mockData";
 import SearchForm from "../SearchForm/SearchForm";
 import CategoryCard from "../CategoryCard/CategoryCard";
 import DetailPanel from "../DetailPanel/DetailPanel";
 import ResultCard from "../ResultCard/ResultCard";
+import Footer from "../Footer/Footer";
 import "./Main.css";
-
-const results = [
-  {
-    name: "Elf",
-    type: "Race",
-    description: "Graceful humanoids with keen senses and magical ancestry.",
-  },
-  {
-    name: "Fireball",
-    type: "Spell",
-    description: "A bright streak flashes into an explosion of flame.",
-  },
-  {
-    name: "Rogue",
-    type: "Class",
-    description: "A skilled adventurer who relies on stealth and precision.",
-  },
-];
 
 function Main() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -105,6 +89,7 @@ function Main() {
           />
         </div>
       </section>
+      <Footer />
     </main>
   );
 }
