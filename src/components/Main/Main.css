@@ -23,11 +23,23 @@
   margin-bottom: 40px;
 }
 
+/* Search Experience */
+.search-experience {
+  max-width: 900px;
+  margin: 56px auto 0;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 32px;
+  align-items: start;
+}
+
 /* Results */
 .results {
   max-width: 900px;
   margin: 56px auto 0;
   padding: 0 24px;
+  text-align: left;
 }
 
 .results__title {
@@ -39,6 +51,13 @@
   display: grid;
   /* grid-template-columns: repeat(3, 1fr); */
   gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .search-experience {
+    grid-template-columns: 1fr;
+    max-width: 700px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -60,6 +79,14 @@
 
   .search-form input {
     width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .search-experience {
+    margin-top: 40px;
+    padding: 0 16px;
+    gap: 16px;
   }
 }
 

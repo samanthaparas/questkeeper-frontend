@@ -1,23 +1,28 @@
 .result-card {
   padding: 20px;
   border: 1px solid rgba(217, 164, 65, 0.35);
-  border-radius: 10px;
+  border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .result-card:hover {
-  cursor: pointer;
   transform: translateY(-2px);
-  cursor: pointer;
-  transform: translateY(-2px);
+  border-color: #d9a441;
+  background-color: rgba(217, 164, 65, 0.08);
 }
 
-.result-card h3 {
-  color: #f1d28a;
+.result-card__name {
   margin: 0 0 8px;
+  color: #f1d28a;
+  font-family: var(--font-heading);
 }
 
-.result-card p {
-  color: #d8c7a3;
+.result-card__type {
   margin: 0;
+  color: #f4ead7;
 }

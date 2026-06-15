@@ -40,27 +40,30 @@ function Main() {
 
         {/* Hides results when search is empty */}
         {searchQuery && (
-          <section className="results">
-            <h2 className="results__title">Search Results</h2>
+          <section className="search-experience">
+            <section className="results">
+              <h2 className="results__title">Search Results</h2>
 
-            <div className="results__grid">
-              {filteredResults.length === 0 ? (
-                <p className="results__empty">
-                  No results found for "{searchQuery}"
-                </p>
-              ) : (
-                filteredResults.map((result) => (
-                  <ResultCard
-                    key={result.name}
-                    result={result}
-                    onClick={() => setSelectedResult(result)}
-                  />
-                ))
-              )}
-            </div>
+              <div className="results__grid">
+                {filteredResults.length === 0 ? (
+                  <p className="results__empty">
+                    No results found for "{searchQuery}"
+                  </p>
+                ) : (
+                  filteredResults.map((result) => (
+                    <ResultCard
+                      key={result.name}
+                      result={result}
+                      onClick={() => setSelectedResult(result)}
+                    />
+                  ))
+                )}
+              </div>
+            </section>
+
+            <DetailPanel selectedResult={selectedResult} />
           </section>
         )}
-        <DetailPanel selectedResult={selectedResult} />
       </section>
 
       <section className="categories">

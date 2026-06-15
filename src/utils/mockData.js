@@ -2,6 +2,8 @@ export const results = [
   {
     name: "Elf",
     type: "Race",
+    size: "Medium",
+    speed: "30 ft.",
     description: "Graceful humanoids with keen senses and magical ancestry.",
   },
   {

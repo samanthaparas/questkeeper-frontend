@@ -1,6 +1,27 @@
 .detail-panel {
-  border: 1px solid #b8869b;
-  border-radius: 12px;
+  min-height: 220px;
   padding: 24px;
-  margin-top: 24px;
+  border: 1px solid rgba(217, 164, 65, 0.4);
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.03);
+  text-align: left;
+}
+
+.detail-panel__title {
+  margin: 0 0 8px;
+  color: #f4ead7;
+  font-family: var(--font-heading);
+  font-size: 32px;
+}
+
+.detail-panel__type {
+  margin: 0 0 20px;
+  color: #d9a441;
+  font-weight: 700;
+}
+
+.detail-panel__description {
+  margin: 0;
+  color: #d8c7a3;
+  line-height: 1.6;
 }
