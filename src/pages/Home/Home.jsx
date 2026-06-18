@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import CategoryCard from "../../components/CategoryCard/CategoryCard";
 import Footer from "../../components/Footer/Footer";
@@ -6,6 +7,15 @@ import "../../components/Main/Main.css";
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+
+    if (!searchQuery.trim()) return;
+
+    navigate(`/search?q=${searchQuery}`);
+  }
 
   return (
     <main className="main">
@@ -24,38 +34,9 @@ function Home() {
 
         <SearchForm
           searchQuery={searchQuery}
-          onSearchChange={(e) => {
-            setSearchQuery(e.target.value);
-            setSelectedResult(null);
-          }}
+          onSearchChange={(e) => setSearchQuery(e.target.value)}
+          onSearchSubmit={handleSearchSubmit}
         />
-
-        {/* Hides results when search is empty */}
-        {searchQuery && (
-          <section className="search-experience">
-            <section className="results">
-              <h2 className="results__title">Search Results</h2>
-
-              <div className="results__grid">
-                {filteredResults.length === 0 ? (
-                  <p className="results__empty">
-                    No results found for "{searchQuery}"
-                  </p>
-                ) : (
-                  filteredResults.map((result) => (
-                    <ResultCard
-                      key={result.name}
-                      result={result}
-                      onClick={() => setSelectedResult(result)}
-                    />
-                  ))
-                )}
-              </div>
-            </section>
-
-            <DetailPanel selectedResult={selectedResult} />
-          </section>
-        )}
       </section>
 
       <section className="categories">

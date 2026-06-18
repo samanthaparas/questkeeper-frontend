@@ -1,8 +1,8 @@
 import "./SearchForm.css";
 
-function SearchForm({ searchQuery, onSearchChange }) {
+function SearchForm({ searchQuery, onSearchChange, onSearchSubmit }) {
   return (
-    <form className="search-form">
+    <form className="search-form" onSubmit={onSearchSubmit}>
       <input
         className="search-form__input"
         type="text"
