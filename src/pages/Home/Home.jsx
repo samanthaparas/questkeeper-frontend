@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import CategoryCard from "../../components/CategoryCard/CategoryCard";
 import Footer from "../../components/Footer/Footer";
@@ -42,27 +43,38 @@ function Home() {
       <section className="categories">
         <h2 className="categories__title">Explore Categories</h2>
         <div className="categories__grid">
-          <CategoryCard
-            icon="🛡️"
-            title="Races"
-            description="Explore unique ancestries and traits"
-          />
-          <CategoryCard
-            icon="⚔️"
-            title="Classes"
-            description="Discover different character classes and their abilities"
-          />
-          <CategoryCard
-            icon="📖"
-            title="Backgrounds"
-            description="Choose from a variety of character backgrounds"
-          />
+          
+          <Link to="races" className="category-link">
+            <CategoryCard
+              icon="🛡️"
+              title="Races"
+              description="Explore unique ancestries and traits"
+            />
+          </Link>
 
-          <CategoryCard
-            icon="✨"
-            title="Spells"
-            description="Find and learn about magical spells"
-          />
+          <Link to="classes" className="category-link">
+            <CategoryCard
+              icon="⚔️"
+              title="Classes"
+              description="Discover different character classes and their abilities"
+            />
+          </Link>
+
+          <Link to="backgrounds" className="category-link">
+            <CategoryCard
+              icon="📖"
+              title="Backgrounds"
+              description="Choose from a variety of character backgrounds"
+            />
+          </Link>
+
+          <Link to="spells" className="category-link">
+            <CategoryCard
+              icon="✨"
+              title="Spells"
+              description="Find and learn about magical spells"
+            />
+          </Link>
         </div>
       </section>
       <Footer />
