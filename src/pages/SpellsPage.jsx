@@ -1,16 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { results } from "../utils/mockData";
+import { getSpells } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
 import ResultCard from "../components/ResultCard/ResultCard";
 import "../pages/SearchPage/SearchPage.css";
 
 function SpellsPage() {
-  const spellResults = results.filter((result) => result.category === "Spell");
+  const [spellResults, setSpellResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, SetApiError] = useState("");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    getSpells()
+      .then((data) => {
+        const formattedClasses = data.results.map((item) => ({
+          name: item.name,
+          category: "Spell",
+          description: "Spell details coming soon.",
+          url: item.url,
+        }));
+
+        setSpellResults(formattedClasses);
+        setSelectedResult(formattedClasses[0]);
+      })
+      .catch(() => {
+        setApiError("Unable to load spells. Please try again later.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   function handleSearchSubmit(e) {
     e.preventDefault();
@@ -34,6 +60,9 @@ function SpellsPage() {
           onSearchChange={(e) => setSearchQuery(e.target.value)}
           onSearchSubmit={handleSearchSubmit}
         />
+
+        {isLoading && <p>Loading spells...</p>}
+        {apiError && <p>{apiError}</p>}
 
         <section className="search-page__layout">
           <div className="search-page__results">
