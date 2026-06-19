@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSpells } from "../utils/api";
+import { getSpells, getResourceDetails } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
 import ResultCard from "../components/ResultCard/ResultCard";
@@ -46,6 +46,22 @@ function SpellsPage() {
     navigate(`/search?q=${searchQuery}`);
   }
 
+  function handleResultClick(result) {
+    getResourceDetails(result.url)
+      .then((data) => {
+        const formattedSpell = {
+          name: data.name,
+          category: "Spell",
+          description: `${data.desc?.[0] || "No description available."}`,
+        };
+
+        setSelectedResult(formattedSpell);
+      })
+      .catch(() => {
+        setApiError("Unable to load spell details. Please try again.");
+      });
+  }
+
   return (
     <main className="search-page">
       <div className="search-page__content">
@@ -70,7 +86,7 @@ function SpellsPage() {
               <ResultCard
                 key={result.name}
                 result={result}
-                onClick={() => setSelectedResult(result)}
+                onClick={() => handleResultClick(result)}
               />
             ))}
           </div>

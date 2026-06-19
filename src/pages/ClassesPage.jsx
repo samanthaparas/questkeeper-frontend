@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getClasses } from "../utils/api";
+import { getClasses, getResourceDetails } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
 import ResultCard from "../components/ResultCard/ResultCard";
@@ -23,7 +23,7 @@ function ClassesPage() {
         const formattedClasses = data.results.map((item) => ({
           name: item.name,
           category: "Class",
-          description: "Class details coming soon.",
+          description: "Select this class to view more details.",
           url: item.url,
         }));
 
@@ -44,6 +44,25 @@ function ClassesPage() {
     if (!searchQuery.trim()) return;
 
     navigate(`/search?q=${searchQuery}`);
+  }
+
+  function handleResultClick(result) {
+    setSelectedResult(result);
+
+    getResourceDetails(result.url)
+      .then((data) => {
+        const formattedClass = {
+          name: data.name,
+          category: "Class",
+          description: `Hit Die: d${data.hit_die}`,
+        };
+
+        setSelectedResult(formattedClass);
+        setApiError("");
+      })
+      .catch(() => {
+        setApiError("Unable to load class details. Please try again later.");
+      });
   }
 
   return (
@@ -71,7 +90,7 @@ function ClassesPage() {
               <ResultCard
                 key={result.name}
                 result={result}
-                onClick={() => setSelectedResult(result)}
+                onClick={() => handleResultClick(result)}
               />
             ))}
           </div>

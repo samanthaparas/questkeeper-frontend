@@ -25,3 +25,12 @@ export function getSpells() {
       throw err;
     });
 }
+
+export function getResourceDetails(url) {
+  return fetch(`https://www.dnd5eapi.co${url}`)
+    .then(checkResponse)
+    .catch((err) => {
+      console.error("Failed to fetch resource details:", err);
+      throw err;
+    });
+}
