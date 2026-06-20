@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { results } from "../utils/mockData";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
@@ -10,20 +9,20 @@ function RacesPage() {
   const raceResults = results.filter((result) => result.category === "Race");
   const [selectedResult, setSelectedResult] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
+
+  const filteredRaces = raceResults.filter((result) =>
+    result.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   function handleSearchSubmit(e) {
     e.preventDefault();
-
-    if (!searchQuery.trim()) return;
-
-    navigate(`/search?q=${searchQuery}`);
   }
 
   return (
     <main className="search-page">
       <div className="search-page__content">
         <h1 className="search-page__title">Explore Races</h1>
+
         <p className="search-page__description">
           A race represents your character's ancestry and natural traits. Choose
           this first when creating a character.
@@ -37,7 +36,7 @@ function RacesPage() {
 
         <section className="search-page__layout">
           <div className="search-page__results">
-            {raceResults.map((result) => (
+            {filteredRaces.map((result) => (
               <ResultCard
                 key={result.name}
                 result={result}
