@@ -1,21 +1,80 @@
-import { useState } from "react";
-import { results } from "../utils/mockData";
+import { useEffect, useState } from "react";
+import { getRaces, getResourceDetails } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
 import ResultCard from "../components/ResultCard/ResultCard";
 import "../pages/SearchPage/SearchPage.css";
 
 function RacesPage() {
-  const raceResults = results.filter((result) => result.category === "Race");
+  const [raceResults, setRaceResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
+
+  useEffect(() => {
+    setIsLoading(true);
+
+    getRaces()
+      .then((data) => {
+        const formattedRaces = data.results.map((item) => ({
+          name: item.name,
+          category: "Race",
+          description: "Select this race to view more details.",
+          url: item.url,
+        }));
+
+        setRaceResults(formattedRaces);
+        setSelectedResult(formattedRaces[0]);
+      })
+      .catch(() => {
+        setApiError("Unable to load races. Please try again later.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
 
   const filteredRaces = raceResults.filter((result) =>
     result.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
+  useEffect(() => {
+    if (searchQuery && filteredRaces.length === 0) {
+      setSelectedResult(null);
+    }
+  }, [searchQuery, filteredRaces]);
+
   function handleSearchSubmit(e) {
     e.preventDefault();
+  }
+
+  function handleResultClick(result) {
+    setSelectedResult(result);
+
+    getResourceDetails(result.url)
+      .then((data) => {
+        console.log(data);
+
+        const abilityBonuses = data.ability_bonuses
+          .map((ability) => `${ability.ability_score.name} +${ability.bonus}`)
+          .join(", ");
+
+        const formattedRace = {
+          name: data.name,
+          category: "Race",
+          speed: data.speed,
+          size: data.size,
+          alignment: data.alignment,
+          abilityBonuses,
+        };
+
+        setSelectedResult(formattedRace);
+        setApiError("");
+      })
+      .catch(() => {
+        setApiError("Unable to load race details. Please try again later.");
+      });
   }
 
   return (
@@ -34,13 +93,20 @@ function RacesPage() {
           onSearchSubmit={handleSearchSubmit}
         />
 
+        {isLoading && <p>Loading races...</p>}
+        {apiError && <p>{apiError}</p>}
+
         <section className="search-page__layout">
           <div className="search-page__results">
+            {filteredRaces.length === 0 && (
+              <p>No races found. Try another search.</p>
+            )}
+
             {filteredRaces.map((result) => (
               <ResultCard
                 key={result.name}
                 result={result}
-                onClick={() => setSelectedResult(result)}
+                onClick={() => handleResultClick(result)}
               />
             ))}
           </div>

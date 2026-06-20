@@ -8,6 +8,15 @@ function checkResponse(res) {
   return Promise.reject(`Error: ${res.status}`);
 }
 
+export function getRaces() {
+  return fetch(`${BASE_URL}/races`)
+    .then(checkResponse)
+    .catch((err) => {
+      console.error("Failed to fetch races:", err);
+      throw err;
+    });
+}
+
 export function getClasses() {
   return fetch(`${BASE_URL}/classes`)
     .then(checkResponse)

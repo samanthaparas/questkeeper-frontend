@@ -38,6 +38,10 @@ function ClassesPage() {
       });
   }, []);
 
+  const filteredClasses = classResults.filter((result) =>
+    result.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   function handleSearchSubmit(e) {
     e.preventDefault();
 
