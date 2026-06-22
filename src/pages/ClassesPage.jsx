@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { getClasses, getResourceDetails } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
@@ -12,8 +11,6 @@ function ClassesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState("");
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
@@ -28,7 +25,6 @@ function ClassesPage() {
         }));
 
         setClassResults(formattedClasses);
-        setSelectedResult(formattedClasses[0]);
       })
       .catch(() => {
         setApiError("Unable to load classes. Please try again later.");
@@ -42,12 +38,14 @@ function ClassesPage() {
     result.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
+  useEffect(() => {
+    if (searchQuery && filteredClasses.length === 0) {
+      setSelectedResult(null);
+    }
+  }, [searchQuery, filteredClasses]);
+
   function handleSearchSubmit(e) {
     e.preventDefault();
-
-    if (!searchQuery.trim()) return;
-
-    navigate(`/search?q=${searchQuery}`);
   }
 
   function handleResultClick(result) {
@@ -55,10 +53,31 @@ function ClassesPage() {
 
     getResourceDetails(result.url)
       .then((data) => {
+        const savingThrows = data.saving_throws
+          .map((item) => item.name)
+          .join(", ");
+
+        const proficiencies = data.proficiencies.map((item) => item.name);
+
+        const skillChoices = data.proficiency_choices
+          .map((choice) => choice.desc)
+          .join(" ");
+
+        const startingEquipment = data.starting_equipment
+          .map((item) => `${item.equipment.name} x${item.quantity}`)
+          .join(", ");
+
+        const subclasses = data.subclasses.map((item) => item.name).join(", ");
+
         const formattedClass = {
           name: data.name,
           category: "Class",
-          description: `Hit Die: d${data.hit_die}`,
+          hitDie: `d${data.hit_die}`,
+          savingThrows,
+          proficiencies,
+          skillChoices,
+          startingEquipment,
+          subclasses,
         };
 
         setSelectedResult(formattedClass);
@@ -90,6 +109,12 @@ function ClassesPage() {
 
         <section className="search-page__layout">
           <div className="search-page__results">
+            {filteredClasses.length === 0 && (
+              <p className="search-page__empty">
+                No classes found. Try another search.
+              </p>
+            )}
+
             {classResults.map((result) => (
               <ResultCard
                 key={result.name}

@@ -25,7 +25,6 @@ function RacesPage() {
         }));
 
         setRaceResults(formattedRaces);
-        setSelectedResult(formattedRaces[0]);
       })
       .catch(() => {
         setApiError("Unable to load races. Please try again later.");
@@ -99,7 +98,9 @@ function RacesPage() {
         <section className="search-page__layout">
           <div className="search-page__results">
             {filteredRaces.length === 0 && (
-              <p>No races found. Try another search.</p>
+              <p className="search-page__empty">
+                No races found. Try another search.
+              </p>
             )}
 
             {filteredRaces.map((result) => (
