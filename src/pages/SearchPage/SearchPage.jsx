@@ -1,7 +1,6 @@
-import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
-import { results } from "../../utils/mockData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { getClasses, getRaces } from "../../utils/api";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import DetailPanel from "../../components/DetailPanel/DetailPanel";
 import ResultCard from "../../components/ResultCard/ResultCard";
@@ -9,16 +8,42 @@ import "./SearchPage.css";
 
 function SearchPage() {
   const [searchParams] = useSearchParams();
-  const query = searchParams.get("q");
+  const query = searchParams.get("q") || "";
 
-  const filteredResults = results.filter((result) =>
-    result.name.toLowerCase().includes(query.toLowerCase()),
-  );
-
+  const [allResults, setAllResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(query);
 
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState(query || "");
+
+  useEffect(() => {
+    Promise.all([getClasses(), getRaces()]).then(([classesData, racesData]) => {
+      const formattedClasses = classesData.results.map((item) => ({
+        name: item.name,
+        category: "Class",
+        description: "Select this class to view more details.",
+        url: item.url,
+      }));
+
+      const formattedRaces = racesData.results.map((item) => ({
+        name: item.name,
+        category: "Race",
+        description: "Select this race to view more details.",
+        url: item.url,
+      }));
+
+      setAllResults([...formattedClasses, ...formattedRaces]);
+    });
+  }, []);
+
+  useEffect(() => {
+    setSearchQuery(query);
+    setSelectedResult(null);
+  }, [query]);
+
+  const filteredResults = allResults.filter((result) =>
+    result.name.toLowerCase().includes(query.toLowerCase()),
+  );
 
   function handleSearchSubmit(e) {
     e.preventDefault();
@@ -32,7 +57,7 @@ function SearchPage() {
     <main className="search-page">
       <SearchForm
         searchQuery={searchQuery}
-        setSearchChange={(e) => setSearchQuery(e.target.value)}
+        onSearchChange={(e) => setSearchQuery(e.target.value)}
         onSearchSubmit={handleSearchSubmit}
       />
 
@@ -40,9 +65,13 @@ function SearchPage() {
 
       <section className="search-page__layout">
         <div className="search-page__results">
+          {filteredResults.length === 0 && (
+            <p>No results found. Try another search.</p>
+          )}
+
           {filteredResults.map((result) => (
             <ResultCard
-              key={result.name}
+              key={`${result.category}-${result.name}`}
               result={result}
               onClick={() => setSelectedResult(result)}
             />
