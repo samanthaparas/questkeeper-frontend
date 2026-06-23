@@ -1,10 +1,13 @@
 import "./ResultCard.css";
 
-function ResultCard({ result, onClick }) {
+function ResultCard({ result, onClick, isSelected }) {
   return (
-    <article className="result-card" onClick={onClick}>
+    <article
+      className={`result-card ${isSelected ? "result-card--selected" : ""}`}
+      onClick={onClick}
+    >
       <h3 className="result-card__name">{result.name}</h3>
-      <p className="result-card__type">{result.type}</p>
+      <p className="result-card__type">{result.category}</p>
     </article>
   );
 }

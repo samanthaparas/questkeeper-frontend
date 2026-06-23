@@ -107,6 +107,7 @@ function RacesPage() {
               <ResultCard
                 key={result.name}
                 result={result}
+                isSelected={selectedResult?.name === result.name}
                 onClick={() => handleResultClick(result)}
               />
             ))}

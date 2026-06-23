@@ -26,6 +26,15 @@ export function getClasses() {
     });
 }
 
+export function getBackgrounds() {
+  return fetch(`${BASE_URL}/backgrounds`)
+    .then(checkResponse)
+    .catch((err) => {
+      console.error("Failed to fetch backgrounds:", err);
+      throw err;
+    });
+}
+
 export function getSpells() {
   return fetch(`${BASE_URL}/spells`)
     .then(checkResponse)

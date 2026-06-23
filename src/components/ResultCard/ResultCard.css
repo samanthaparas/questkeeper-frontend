@@ -16,6 +16,12 @@
   background-color: rgba(217, 164, 65, 0.08);
 }
 
+.result-card--selected {
+  border-color: #d9a441;
+  background-color: rgba(217, 164, 65, 0.12);
+  box-shadow: 0 0 18px rgba(217, 164, 65, 0.18);
+}
+
 .result-card__name {
   margin: 0 0 8px;
   color: #f1d28a;
@@ -25,4 +31,5 @@
 .result-card__type {
   margin: 0;
   color: #f4ead7;
+  font-size: 14px;
 }

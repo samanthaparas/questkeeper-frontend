@@ -73,6 +73,61 @@ function DetailPanel({ selectedResult }) {
           </p>
         </>
       )}
+
+      {selectedResult.category === "Background" && (
+        <>
+          <p>
+            <strong>Starting Proficiencies:</strong>
+          </p>
+
+          <ul className="detail-panel__list">
+            {selectedResult.startingProficiencies?.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+
+          <p>
+            <strong>Languages:</strong> {selectedResult.languages}
+          </p>
+
+          <p>
+            <strong>Starting Equipment:</strong>
+          </p>
+
+          <ul className="detail-panel__list">
+            {selectedResult.startingEquipment?.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+
+          <p>
+            <strong>Starting Gold:</strong> {selectedResult.startingGold}
+          </p>
+
+          <p>
+            <strong>Feature:</strong> {selectedResult.featureName}
+          </p>
+
+          <p>{selectedResult.featureDescription}</p>
+
+          <p>
+            <strong>Personality Traits:</strong>{" "}
+            {selectedResult.personalityTraits}
+          </p>
+
+          <p>
+            <strong>Ideals:</strong> {selectedResult.ideals}
+          </p>
+
+          <p>
+            <strong>Bonds:</strong> {selectedResult.bonds}
+          </p>
+
+          <p>
+            <strong>Flaws:</strong> {selectedResult.flaws}
+          </p>
+        </>
+      )}
     </section>
   );
 }
