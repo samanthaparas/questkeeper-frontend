@@ -105,7 +105,7 @@ function ClassesPage() {
         />
 
         {isLoading && <p>Loading classes...</p>}
-        {apiError && <p>{apiError}</p>}
+        {apiError && <p className="search-page__error">{apiError}</p>}
 
         <section className="search-page__layout">
           <div className="search-page__results">
@@ -115,10 +115,11 @@ function ClassesPage() {
               </p>
             )}
 
-            {classResults.map((result) => (
+            {filteredClasses.map((result) => (
               <ResultCard
                 key={result.name}
                 result={result}
+                isSelected={selectedResult?.name === result.name}
                 onClick={() => handleResultClick(result)}
               />
             ))}

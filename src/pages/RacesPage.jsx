@@ -93,7 +93,7 @@ function RacesPage() {
         />
 
         {isLoading && <p>Loading races...</p>}
-        {apiError && <p>{apiError}</p>}
+        {apiError && <p className="search-page__error">{apiError}</p>}
 
         <section className="search-page__layout">
           <div className="search-page__results">

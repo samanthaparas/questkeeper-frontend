@@ -17,6 +17,7 @@ function BackgroundsPage() {
 
     getBackgrounds()
       .then((data) => {
+        console.log(data.results);
         const formattedBackgrounds = data.results.map((item) => ({
           name: item.name,
           category: "Background",
@@ -98,6 +99,10 @@ function BackgroundsPage() {
           including skills, equipment, personality traits, and story hooks.
         </p>
 
+        <p className="search-page__note">
+          More backgrounds may be added as the API expands.
+        </p>
+
         <SearchForm
           searchQuery={searchQuery}
           onSearchChange={(e) => setSearchQuery(e.target.value)}
@@ -105,7 +110,7 @@ function BackgroundsPage() {
         />
 
         {isLoading && <p>Loading Backgrounds...</p>}
-        {apiError && <p>{apiError}</p>}
+        {apiError && <p className="search-page__error">{apiError}</p>}
 
         <section className="search-page__layout">
           <div className="search-page__results">

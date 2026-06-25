@@ -36,3 +36,10 @@
   display: grid;
   gap: 16px;
 }
+
+.search-page__note {
+  margin-bottom: 24px;
+  color: #d8c7a3;
+  font-style: italic;
+  opacity: 0.8;
+}
