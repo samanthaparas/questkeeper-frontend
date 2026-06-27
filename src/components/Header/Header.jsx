@@ -1,13 +1,26 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navigation from "./Navigation/Navigation";
 import logoIcon from "../../../public/QK-favicon.png";
 import "./Header.css";
 
 function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  function handleMenuClick() {
+    setIsMenuOpen(!isMenuOpen);
+  }
+
   return (
-    <header className="header">
-      <button className="header__menu" type="button">
-        ☰
+    <header className={`header ${isMenuOpen ? "header--menu-open" : ""}`}>
+      <button
+        className="header__menu"
+        type="button"
+        aria-label="Toggle navigation menu"
+        aria-expanded={isMenuOpen}
+        onClick={handleMenuClick}
+      >
+        Menu
       </button>
 
       <Link className="header__brand" to="/">
@@ -22,8 +35,12 @@ function Header() {
       <div className="header__actions">
         <Navigation />
 
-        <button className="header__profile" type="button">
-          👤
+        <button
+          className="header__profile"
+          type="button"
+          aria-label="Open profile"
+        >
+          Profile
         </button>
       </div>
     </header>

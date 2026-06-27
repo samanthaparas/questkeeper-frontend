@@ -9,15 +9,12 @@ function BackgroundsPage() {
   const [backgroundResults, setBackgroundResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
-
     getBackgrounds()
       .then((data) => {
-        console.log(data.results);
         const formattedBackgrounds = data.results.map((item) => ({
           name: item.name,
           category: "Background",
@@ -28,7 +25,7 @@ function BackgroundsPage() {
         setBackgroundResults(formattedBackgrounds);
       })
       .catch(() => {
-        setApiError("Unable to load Backgrounds. Please try again later.");
+        setApiError("Unable to load backgrounds. Please try again later.");
       })
       .finally(() => {
         setIsLoading(false);
@@ -39,14 +36,13 @@ function BackgroundsPage() {
     result.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  useEffect(() => {
-    if (searchQuery && filteredBackgrounds.length === 0) {
-      setSelectedResult(null);
-    }
-  }, [searchQuery, filteredBackgrounds.length]);
-
   function handleSearchSubmit(e) {
     e.preventDefault();
+  }
+
+  function handleSearchChange(e) {
+    setSearchQuery(e.target.value);
+    setSelectedResult(null);
   }
 
   function handleResultClick(result) {
@@ -105,18 +101,24 @@ function BackgroundsPage() {
 
         <SearchForm
           searchQuery={searchQuery}
-          onSearchChange={(e) => setSearchQuery(e.target.value)}
+          onSearchChange={handleSearchChange}
           onSearchSubmit={handleSearchSubmit}
         />
 
-        {isLoading && <p>Loading Backgrounds...</p>}
+        {isLoading && (
+          <p className="search-page__status">Loading backgrounds...</p>
+        )}
         {apiError && <p className="search-page__error">{apiError}</p>}
 
-        <section className="search-page__layout">
+        <section
+          className={`search-page__layout ${
+            selectedResult ? "search-page__layout--detail-open" : ""
+          }`}
+        >
           <div className="search-page__results">
-            {filteredBackgrounds.length === 0 && (
+            {!isLoading && filteredBackgrounds.length === 0 && (
               <p className="search-page__empty">
-                No Backgrounds found. Try another search.
+                No backgrounds found. Try another search.
               </p>
             )}
 
@@ -130,7 +132,19 @@ function BackgroundsPage() {
             ))}
           </div>
 
-          <DetailPanel selectedResult={selectedResult} />
+          <div className="search-page__detail-wrapper">
+            {selectedResult && (
+              <button
+                className="search-page__back-button"
+                type="button"
+                onClick={() => setSelectedResult(null)}
+              >
+                Back to results
+              </button>
+            )}
+
+            <DetailPanel selectedResult={selectedResult} />
+          </div>
         </section>
       </div>
     </main>

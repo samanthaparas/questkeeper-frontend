@@ -6,9 +6,8 @@
 }
 
 .categories__title {
-  color: #d9a441; 
+  color: #d9a441;
   font-family: var(--font-body);
-
 }
 
 .categories__grid {
@@ -29,8 +28,8 @@
 }
 
 .category-card:hover {
-    transform: translateY(-4px);
-    border-color: #d9a441;
+  transform: translateY(-4px);
+  border-color: #d9a441;
 }
 
 .category-card__icon {
@@ -50,9 +49,18 @@
   margin: 0;
 }
 
-
 @media (max-width: 768px) {
-    .categories__grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .categories__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .category-card__description {
+    display: none;
+  }
+
+  .categories__title {
+    text-align: center;
+  }
 }

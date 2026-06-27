@@ -1,9 +1,13 @@
 .result-card {
+  width: 100%;
   padding: 20px;
   border: 1px solid rgba(217, 164, 65, 0.35);
   border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.03);
+  color: inherit;
   cursor: pointer;
+  font: inherit;
+  text-align: left;
   transition:
     transform 0.2s ease,
     border-color 0.2s ease,
@@ -14,6 +18,11 @@
   transform: translateY(-2px);
   border-color: #d9a441;
   background-color: rgba(217, 164, 65, 0.08);
+}
+
+.result-card:focus-visible {
+  outline: 2px solid #f1d28a;
+  outline-offset: 3px;
 }
 
 .result-card--selected {

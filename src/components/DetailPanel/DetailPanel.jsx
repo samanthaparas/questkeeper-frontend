@@ -15,6 +15,12 @@ function DetailPanel({ selectedResult }) {
       <h2 className="detail-panel__title">{selectedResult.name}</h2>
       <p className="detail-panel__type">{selectedResult.category}</p>
 
+      {selectedResult.description && (
+        <p className="detail-panel__description">
+          {selectedResult.description}
+        </p>
+      )}
+
       {selectedResult.category === "Race" && (
         <>
           <p>
@@ -126,6 +132,34 @@ function DetailPanel({ selectedResult }) {
           <p>
             <strong>Flaws:</strong> {selectedResult.flaws}
           </p>
+        </>
+      )}
+
+      {selectedResult.category === "Spell" && (
+        <>
+          {selectedResult.level !== undefined && (
+            <p>
+              <strong>Level:</strong> {selectedResult.level}
+            </p>
+          )}
+
+          {selectedResult.castingTime && (
+            <p>
+              <strong>Casting Time:</strong> {selectedResult.castingTime}
+            </p>
+          )}
+
+          {selectedResult.range && (
+            <p>
+              <strong>Range:</strong> {selectedResult.range}
+            </p>
+          )}
+
+          {selectedResult.duration && (
+            <p>
+              <strong>Duration:</strong> {selectedResult.duration}
+            </p>
+          )}
         </>
       )}
     </section>

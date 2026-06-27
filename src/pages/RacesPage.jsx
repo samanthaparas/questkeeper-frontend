@@ -9,12 +9,10 @@ function RacesPage() {
   const [raceResults, setRaceResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
-
     getRaces()
       .then((data) => {
         const formattedRaces = data.results.map((item) => ({
@@ -38,14 +36,13 @@ function RacesPage() {
     result.name.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  useEffect(() => {
-    if (searchQuery && filteredRaces.length === 0) {
-      setSelectedResult(null);
-    }
-  }, [searchQuery, filteredRaces]);
-
   function handleSearchSubmit(e) {
     e.preventDefault();
+  }
+
+  function handleSearchChange(e) {
+    setSearchQuery(e.target.value);
+    setSelectedResult(null);
   }
 
   function handleResultClick(result) {
@@ -53,8 +50,6 @@ function RacesPage() {
 
     getResourceDetails(result.url)
       .then((data) => {
-        console.log(data);
-
         const abilityBonuses = data.ability_bonuses
           .map((ability) => `${ability.ability_score.name} +${ability.bonus}`)
           .join(", ");
@@ -88,16 +83,20 @@ function RacesPage() {
 
         <SearchForm
           searchQuery={searchQuery}
-          onSearchChange={(e) => setSearchQuery(e.target.value)}
+          onSearchChange={handleSearchChange}
           onSearchSubmit={handleSearchSubmit}
         />
 
-        {isLoading && <p>Loading races...</p>}
+        {isLoading && <p className="search-page__status">Loading races...</p>}
         {apiError && <p className="search-page__error">{apiError}</p>}
 
-        <section className="search-page__layout">
+        <section
+          className={`search-page__layout ${
+            selectedResult ? "search-page__layout--detail-open" : ""
+          }`}
+        >
           <div className="search-page__results">
-            {filteredRaces.length === 0 && (
+            {!isLoading && filteredRaces.length === 0 && (
               <p className="search-page__empty">
                 No races found. Try another search.
               </p>
@@ -113,7 +112,19 @@ function RacesPage() {
             ))}
           </div>
 
-          <DetailPanel selectedResult={selectedResult} />
+          <div className="search-page__detail-wrapper">
+            {selectedResult && (
+              <button
+                className="search-page__back-button"
+                type="button"
+                onClick={() => setSelectedResult(null)}
+              >
+                Back to results
+              </button>
+            )}
+
+            <DetailPanel selectedResult={selectedResult} />
+          </div>
         </section>
       </div>
     </main>

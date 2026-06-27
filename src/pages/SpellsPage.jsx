@@ -10,25 +10,22 @@ function SpellsPage() {
   const [spellResults, setSpellResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [apiError, SetApiError] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [apiError, setApiError] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    setIsLoading(true);
-
     getSpells()
       .then((data) => {
-        const formattedClasses = data.results.map((item) => ({
+        const formattedSpells = data.results.map((item) => ({
           name: item.name,
           category: "Spell",
-          description: "Spell details coming soon.",
+          description: "Select this spell to view more details.",
           url: item.url,
         }));
 
-        setSpellResults(formattedClasses);
-        setSelectedResult(formattedClasses[0]);
+        setSpellResults(formattedSpells);
       })
       .catch(() => {
         setApiError("Unable to load spells. Please try again later.");
@@ -38,24 +35,40 @@ function SpellsPage() {
       });
   }, []);
 
+  const filteredSpells = spellResults.filter((result) =>
+    result.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   function handleSearchSubmit(e) {
     e.preventDefault();
 
     if (!searchQuery.trim()) return;
 
-    navigate(`/search?q=${searchQuery}`);
+    navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+  }
+
+  function handleSearchChange(e) {
+    setSearchQuery(e.target.value);
+    setSelectedResult(null);
   }
 
   function handleResultClick(result) {
+    setSelectedResult(result);
+
     getResourceDetails(result.url)
       .then((data) => {
         const formattedSpell = {
           name: data.name,
           category: "Spell",
-          description: `${data.desc?.[0] || "No description available."}`,
+          description: data.desc?.[0] || "No description available.",
+          range: data.range,
+          duration: data.duration,
+          castingTime: data.casting_time,
+          level: data.level,
         };
 
         setSelectedResult(formattedSpell);
+        setApiError("");
       })
       .catch(() => {
         setApiError("Unable to load spell details. Please try again.");
@@ -66,32 +79,56 @@ function SpellsPage() {
     <main className="search-page">
       <div className="search-page__content">
         <h1 className="search-page__title">Explore Spells</h1>
+
         <p className="search-page__description">
-          A race represents your character's ancestry and natural traits. Choose
-          this first when creating a character.
+          Spells define the magical effects your character can cast in and out
+          of combat.
         </p>
 
         <SearchForm
           searchQuery={searchQuery}
-          onSearchChange={(e) => setSearchQuery(e.target.value)}
+          onSearchChange={handleSearchChange}
           onSearchSubmit={handleSearchSubmit}
         />
 
-        {isLoading && <p>Loading spells...</p>}
-        {apiError && <p>{apiError}</p>}
+        {isLoading && <p className="search-page__status">Loading spells...</p>}
+        {apiError && <p className="search-page__error">{apiError}</p>}
 
-        <section className="search-page__layout">
+        <section
+          className={`search-page__layout ${
+            selectedResult ? "search-page__layout--detail-open" : ""
+          }`}
+        >
           <div className="search-page__results">
-            {spellResults.map((result) => (
+            {!isLoading && filteredSpells.length === 0 && (
+              <p className="search-page__empty">
+                No spells found. Try another search.
+              </p>
+            )}
+
+            {filteredSpells.map((result) => (
               <ResultCard
                 key={result.name}
                 result={result}
+                isSelected={selectedResult?.name === result.name}
                 onClick={() => handleResultClick(result)}
               />
             ))}
           </div>
 
-          <DetailPanel selectedResult={selectedResult} />
+          <div className="search-page__detail-wrapper">
+            {selectedResult && (
+              <button
+                className="search-page__back-button"
+                type="button"
+                onClick={() => setSelectedResult(null)}
+              >
+                Back to results
+              </button>
+            )}
+
+            <DetailPanel selectedResult={selectedResult} />
+          </div>
         </section>
       </div>
     </main>
