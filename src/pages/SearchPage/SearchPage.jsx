@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getClasses, getRaces } from "../../utils/api";
+import {
+  getClasses,
+  getRaces,
+  getSpells,
+  getBackgrounds,
+} from "../../utils/api";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import DetailPanel from "../../components/DetailPanel/DetailPanel";
 import ResultCard from "../../components/ResultCard/ResultCard";
@@ -19,8 +24,8 @@ function SearchPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    Promise.all([getClasses(), getRaces()])
-      .then(([classesData, racesData]) => {
+    Promise.all([getClasses(), getRaces(), getSpells(), getBackgrounds()])
+      .then(([classesData, racesData, spellsData, backgroundsData]) => {
         const formattedClasses = classesData.results.map((item) => ({
           name: item.name,
           category: "Class",
@@ -35,7 +40,26 @@ function SearchPage() {
           url: item.url,
         }));
 
-        setAllResults([...formattedClasses, ...formattedRaces]);
+        const formattedSpells = spellsData.results.map((item) => ({
+          name: item.name,
+          category: "Spell",
+          description: "Select this spell to view more details.",
+          url: item.url,
+        }));
+
+        const formattedBackgrounds = backgroundsData.results.map((item) => ({
+          name: item.name,
+          category: "Background",
+          description: "Select this background to view more details.",
+          url: item.url,
+        }));
+
+        setAllResults([
+          ...formattedClasses,
+          ...formattedRaces,
+          ...formattedSpells,
+          ...formattedBackgrounds,
+        ]);
       })
       .catch(() => {
         setApiError("Unable to load search results. Please try again later.");
@@ -44,6 +68,11 @@ function SearchPage() {
         setIsLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    setSearchQuery(query);
+    setSelectedResult(null);
+  }, [query]);
 
   const filteredResults = allResults.filter((result) =>
     result.name.toLowerCase().includes(searchQuery.toLowerCase()),
