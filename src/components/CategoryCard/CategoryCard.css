@@ -18,6 +18,9 @@
 
 /* Category Card CSS */
 .category-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   min-height: 150px;
   padding: 20px 16px;
   border: 1px solid rgba(217, 164, 65, 0.35);
@@ -51,11 +54,15 @@
 
 @media (max-width: 768px) {
   .categories__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media screen and (max-width: 480px) {
+  .category-card {
+    padding: 18px 10px;
+  }
+
   .category-card__description {
     display: none;
   }
