@@ -17,7 +17,7 @@ function SearchPage() {
 
   const [allResults, setAllResults] = useState([]);
   const [selectedResult, setSelectedResult] = useState(null);
-  const [searchQuery, setSearchQuery] = useState(query);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [apiError, setApiError] = useState("");
 
@@ -69,13 +69,8 @@ function SearchPage() {
       });
   }, []);
 
-  useEffect(() => {
-    setSearchQuery(query);
-    setSelectedResult(null);
-  }, [query]);
-
   const filteredResults = allResults.filter((result) =>
-    result.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    result.name.toLowerCase().includes(query.toLowerCase()),
   );
 
   function handleSearchSubmit(e) {

@@ -27,14 +27,15 @@
 
 .header__title {
   color: #d9a441;
+  font-family: var(--font-heading);
   font-size: 32px;
   font-weight: 700;
   line-height: 1;
-  font-family: var(--font-heading);
 }
 
 .header__tagline {
   color: #f1d28a;
+  font-family: var(--font-body);
   font-size: 14px;
   line-height: 1.2;
 }
@@ -53,11 +54,13 @@
   border: 1px solid rgba(217, 164, 65, 0.35);
   background-color: rgba(255, 255, 255, 0.04);
   color: #f1d28a;
+  font-family: var(--font-body);
   cursor: pointer;
 }
 
 .header__menu {
   display: none;
+  font-family: var(--font-body);
 }
 
 .header__menu:focus-visible,
@@ -66,7 +69,7 @@
   outline-offset: 3px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .header {
     display: grid;
     grid-template-columns: 64px 1fr 64px;

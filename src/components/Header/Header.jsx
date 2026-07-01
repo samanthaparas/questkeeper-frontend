@@ -35,13 +35,15 @@ function Header() {
       <div className="header__actions">
         <Navigation />
 
-        <button
+        {/* 
+          FUTURE PROFILE BUTTON
+          <button
           className="header__profile"
           type="button"
           aria-label="Open profile"
         >
           Profile
-        </button>
+        </button> */}
       </div>
     </header>
   );
