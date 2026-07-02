@@ -13,7 +13,6 @@ function About() {
           application.
         </p>
       </section>
-      About Page
     </main>
   );
 }
