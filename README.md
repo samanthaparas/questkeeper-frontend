@@ -1,16 +1,46 @@
-# React + Vite
+## QuestKeeper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+QuestKeeper is a React app that helps users search and explore D&D 5e content, including races, classes, spells, and backgrounds.
 
-Currently, two official plugins are available:
+## API Used
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+This project uses the D&D 5e API to fetch external game data.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Home page with search and category navigation
+- Routes for races, classes, spells, and backgrounds
+- Search results page using URL query parameters
+- Detail panel for selected results
+- Responsive layout for mobile and desktop
 
-## Expanding the ESLint configuration
+## Routes to Test
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- /
+- /#/races
+- /#/classes
+- /#/backgrounds
+- /#/spells
+- /#/search?q=elf
+
+## Deployment
+
+Deployed with GitHub Pages.
+
+## Known Limitations
+
+- Favorites are planned for a later stage
+- Some D&D API categories have limited available data
+
+## Deployed Site
+
+https://samanthaparas.github.io/questkeeper-frontend/
+
+## Routes to Test
+
+- https://samanthaparas.github.io/questkeeper-frontend/
+- https://samanthaparas.github.io/questkeeper-frontend/#/races
+- https://samanthaparas.github.io/questkeeper-frontend/#/classes
+- https://samanthaparas.github.io/questkeeper-frontend/#/backgrounds
+- https://samanthaparas.github.io/questkeeper-frontend/#/spells
+- https://samanthaparas.github.io/questkeeper-frontend/#/search?q=elf
