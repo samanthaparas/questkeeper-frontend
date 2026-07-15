@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getSpells, getResourceDetails } from "../utils/api";
+import { getSpells, getSpellDetails } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
 import ResultCard from "../components/ResultCard/ResultCard";
@@ -55,7 +55,7 @@ function SpellsPage() {
   function handleResultClick(result) {
     setSelectedResult(result);
 
-    getResourceDetails(result.url)
+    getSpellDetails(result.index)
       .then((data) => {
         const formattedSpell = {
           name: data.name,
