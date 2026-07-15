@@ -36,10 +36,21 @@ export function getBackgrounds() {
 }
 
 export function getSpells() {
-  return fetch(`${BASE_URL}/spells`)
+  return fetch("http://localhost:3001/api/spells")
     .then(checkResponse)
+    .then((response) => response.data)
     .catch((err) => {
       console.error("Failed to fetch spells:", err);
+      throw err;
+    });
+}
+
+export function getSpellDetails(spellId) {
+  return fetch(`http://localhost:3001/api/spells/${spellId}`)
+    .then(checkResponse)
+    .then((response) => response.data)
+    .catch((err) => {
+      console.error(`Failed to fetch spell details for ID ${spellId}:`, err);
       throw err;
     });
 }
