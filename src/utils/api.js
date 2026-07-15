@@ -18,10 +18,21 @@ export function getRaces() {
 }
 
 export function getClasses() {
-  return fetch(`${BASE_URL}/classes`)
+  return fetch("http://localhost:3001/api/classes")
     .then(checkResponse)
+    .then((response) => response.data)
     .catch((err) => {
       console.error("Failed to fetch classes:", err);
+      throw err;
+    });
+}
+
+export function getClassDetails(classId) {
+  return fetch(`http://localhost:3001/api/classes/${classId}`)
+    .then(checkResponse)
+    .then((response) => response.data)
+    .catch((err) => {
+      console.error(`Failed to fetch class details for ID ${classId}:`, err);
       throw err;
     });
 }
