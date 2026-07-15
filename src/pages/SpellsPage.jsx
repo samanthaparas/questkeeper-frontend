@@ -18,7 +18,8 @@ function SpellsPage() {
   useEffect(() => {
     getSpells()
       .then((data) => {
-        const formattedSpells = data.results.map((item) => ({
+        const formattedSpells = data.map((item) => ({
+          index: item.index,
           name: item.name,
           category: "Spell",
           description: "Select this spell to view more details.",
@@ -27,7 +28,8 @@ function SpellsPage() {
 
         setSpellResults(formattedSpells);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Unable to load spells:", err);
         setApiError("Unable to load spells. Please try again later.");
       })
       .finally(() => {
@@ -100,7 +102,7 @@ function SpellsPage() {
           }`}
         >
           <div className="search-page__results">
-            {!isLoading && filteredSpells.length === 0 && (
+            {!isLoading && !apiError && filteredSpells.length === 0 && (
               <p className="search-page__empty">
                 No spells found. Try another search.
               </p>
@@ -108,9 +110,9 @@ function SpellsPage() {
 
             {filteredSpells.map((result) => (
               <ResultCard
-                key={result.name}
+                key={result.index}
                 result={result}
-                isSelected={selectedResult?.name === result.name}
+                isSelected={selectedResult?.index === result.index}
                 onClick={() => handleResultClick(result)}
               />
             ))}
