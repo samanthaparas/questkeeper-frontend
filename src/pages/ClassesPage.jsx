@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getClasses, getResourceDetails } from "../utils/api";
+import { getClasses, getClassDetails } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
 import ResultCard from "../components/ResultCard/ResultCard";
@@ -15,7 +15,8 @@ function ClassesPage() {
   useEffect(() => {
     getClasses()
       .then((data) => {
-        const formattedClasses = data.results.map((item) => ({
+        const formattedClasses = data.map((item) => ({
+          index: item.index,
           name: item.name,
           category: "Class",
           description: "Select this class to view more details.",
@@ -24,7 +25,8 @@ function ClassesPage() {
 
         setClassResults(formattedClasses);
       })
-      .catch(() => {
+      .catch((err) => {
+        console.error("Unable to load classes:", err);
         setApiError("Unable to load classes. Please try again later.");
       })
       .finally(() => {
@@ -48,7 +50,7 @@ function ClassesPage() {
   function handleResultClick(result) {
     setSelectedResult(result);
 
-    getResourceDetails(result.url)
+    getClassDetails(result.index)
       .then((data) => {
         const savingThrows = data.saving_throws
           .map((item) => item.name)
