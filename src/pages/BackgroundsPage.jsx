@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getBackgrounds, getResourceDetails } from "../utils/api";
+import { getBackgrounds, getBackgroundDetails } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
 import ResultCard from "../components/ResultCard/ResultCard";
@@ -15,7 +15,8 @@ function BackgroundsPage() {
   useEffect(() => {
     getBackgrounds()
       .then((data) => {
-        const formattedBackgrounds = data.results.map((item) => ({
+        const formattedBackgrounds = data.map((item) => ({
+          index: item.index,
           name: item.name,
           category: "Background",
           description: "Select this background to view more details.",
@@ -48,7 +49,7 @@ function BackgroundsPage() {
   function handleResultClick(result) {
     setSelectedResult(result);
 
-    getResourceDetails(result.url)
+    getBackgroundDetails(result.index)
       .then((data) => {
         const startingProficiencies = data.starting_proficiencies.map(
           (item) => item.name,

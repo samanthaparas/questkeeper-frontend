@@ -5,7 +5,10 @@ import {
   getRaces,
   getSpells,
   getBackgrounds,
-  getResourceDetails,
+  getClassDetails,
+  getRaceDetails,
+  getSpellDetails,
+  getBackgroundDetails,
 } from "../../utils/api";
 import SearchForm from "../../components/SearchForm/SearchForm";
 import DetailPanel from "../../components/DetailPanel/DetailPanel";
@@ -27,28 +30,32 @@ function SearchPage() {
   useEffect(() => {
     Promise.all([getClasses(), getRaces(), getSpells(), getBackgrounds()])
       .then(([classesData, racesData, spellsData, backgroundsData]) => {
-        const formattedClasses = classesData.results.map((item) => ({
+        const formattedClasses = classesData.map((item) => ({
+          index: item.index,
           name: item.name,
           category: "Class",
           description: "Select this class to view more details.",
           url: item.url,
         }));
 
-        const formattedRaces = racesData.results.map((item) => ({
+        const formattedRaces = racesData.map((item) => ({
+          index: item.index,
           name: item.name,
           category: "Race",
           description: "Select this race to view more details.",
           url: item.url,
         }));
 
-        const formattedSpells = spellsData.results.map((item) => ({
+        const formattedSpells = spellsData.map((item) => ({
+          index: item.index,
           name: item.name,
           category: "Spell",
           description: "Select this spell to view more details.",
           url: item.url,
         }));
 
-        const formattedBackgrounds = backgroundsData.results.map((item) => ({
+        const formattedBackgrounds = backgroundsData.map((item) => ({
+          index: item.index,
           name: item.name,
           category: "Background",
           description: "Select this background to view more details.",
@@ -175,7 +182,14 @@ function SearchPage() {
   function handleResultClick(result) {
     setSelectedResult(result);
 
-    getResourceDetails(result.url)
+    const detailRequests = {
+      Class: getClassDetails,
+      Race: getRaceDetails,
+      Spell: getSpellDetails,
+      Background: getBackgroundDetails,
+    };
+
+    detailRequests[result.category](result.index)
       .then((data) => {
         setSelectedResult(formatDetailedResult(data, result.category));
         setApiError("");

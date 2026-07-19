@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getRaces, getResourceDetails } from "../utils/api";
+import { getRaces, getRaceDetails } from "../utils/api";
 import SearchForm from "../components/SearchForm/SearchForm";
 import DetailPanel from "../components/DetailPanel/DetailPanel";
 import ResultCard from "../components/ResultCard/ResultCard";
@@ -15,7 +15,8 @@ function RacesPage() {
   useEffect(() => {
     getRaces()
       .then((data) => {
-        const formattedRaces = data.results.map((item) => ({
+        const formattedRaces = data.map((item) => ({
+          index: item.index,
           name: item.name,
           category: "Race",
           description: "Select this race to view more details.",
@@ -48,7 +49,7 @@ function RacesPage() {
   function handleResultClick(result) {
     setSelectedResult(result);
 
-    getResourceDetails(result.url)
+    getRaceDetails(result.index)
       .then((data) => {
         const abilityBonuses = data.ability_bonuses
           .map((ability) => `${ability.ability_score.name} +${ability.bonus}`)
